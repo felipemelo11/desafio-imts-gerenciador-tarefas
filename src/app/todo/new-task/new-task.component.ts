@@ -15,6 +15,10 @@ export class NewTaskComponent implements OnInit {
   constructor(private todoService: TodoService) { }
 
   addTask() {
+    if (!this.newTaskTitle.trim()) {
+      return;
+    }
+
     if (this.isEditing) {
       const updatedTodo: Todo = {
         id: this.todoId!,

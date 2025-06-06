@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Todo } from '../models/todo.model';
 
 @Injectable({
@@ -28,6 +28,13 @@ export class TodoService {
     this.sortTodos();
   }
 
+  private taskToEdit = new BehaviorSubject<Todo | null>(null);
+  taskToEdit$ = this.taskToEdit.asObservable();
+
+  setTaskToEdit(todo: Todo | null) {
+    this.taskToEdit.next(todo);
+  }
+
   getTodos(): Observable<Todo[]> {
     return of(this.todos);
   }
@@ -42,11 +49,11 @@ export class TodoService {
     this.updateLocalStorageAndSave();
   }
 
-  updateTodo(updatedTodo: Todo): void {
+  updateTodo(updatedTodo: Todo) {
     const index = this.todos.findIndex(todo => todo.id === updatedTodo.id);
     if (index !== -1) {
-      this.todos[index] = updatedTodo;
-      this.sortTodos();
+      const originalTodo = this.todos[index];
+      this.todos[index] = { ...originalTodo, ...updatedTodo };
       this.updateLocalStorageAndSave();
     }
   }

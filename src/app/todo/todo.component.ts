@@ -68,4 +68,8 @@ export class TodoComponent implements OnInit {
   get labelClearAll() {
     return 'Limpar Todas Tarefas'
   }
+
+  handleEdit(todo: Todo) {
+    this.todoService.setTaskToEdit(todo);
+  }
 }

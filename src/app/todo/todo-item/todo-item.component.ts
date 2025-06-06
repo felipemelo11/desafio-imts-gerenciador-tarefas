@@ -10,8 +10,9 @@ import { TodoService } from '../../shared/services/todo.service';
 export class TodoItemComponent {
   @Input() todo!: Todo;
   @Output() deletedTodo: EventEmitter<number> = new EventEmitter<number>();
+  @Output() edit = new EventEmitter<Todo>();
 
-  constructor(private todoService: TodoService) {}
+  constructor(private todoService: TodoService) { }
 
   deleteTodo(): void {
     if (confirm('Are you sure you want to delete this task?')) {
@@ -21,5 +22,9 @@ export class TodoItemComponent {
 
   onTaskChecked(): void {
     this.todoService.updateTodo(this.todo);
+  }
+
+  onEdit() {
+    this.edit.emit(this.todo);
   }
 }

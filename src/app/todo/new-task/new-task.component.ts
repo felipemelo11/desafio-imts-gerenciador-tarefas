@@ -28,12 +28,19 @@ export class NewTaskComponent implements OnInit {
       this.todoService.updateTodo(updatedTodo);
       this.todoService.setTaskToEdit(null);
     } else {
-      const newTodo: Todo = {
-        id: this.todoService.getTodoNewId(),
-        title: this.newTaskTitle,
-        completed: false
-      };
-      this.todoService.addTodo(newTodo);
+      const titles = this.newTaskTitle.split('|');
+
+      titles.forEach(title => {
+        const trimmedTitle = title.trim();
+        if (trimmedTitle) {
+          const newTodo: Todo = {
+            id: this.todoService.getTodoNewId(),
+            title: trimmedTitle,
+            completed: false
+          };
+          this.todoService.addTodo(newTodo);
+        }
+      });
     }
     this.newTaskTitle = '';
   }

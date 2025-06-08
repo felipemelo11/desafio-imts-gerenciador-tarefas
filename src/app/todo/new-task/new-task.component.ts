@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../shared/models/todo.model';
 import { TodoService } from 'src/app/shared/services/todo.service';
+import { Filter } from 'bad-words';
 
 @Component({
   selector: 'app-new-task',
@@ -19,7 +20,13 @@ export class NewTaskComponent implements OnInit {
       return;
     }
 
+    const filter = new Filter();
+
     if (this.isEditing) {
+      if (filter.isProfane(this.newTaskTitle)) {
+        alert('Não é permitido cadastrar tarefas com palavras obscenas.');
+        return;
+      }
       const updatedTodo: Todo = {
         id: this.todoId!,
         title: this.newTaskTitle,
@@ -30,9 +37,15 @@ export class NewTaskComponent implements OnInit {
     } else {
       const titles = this.newTaskTitle.split('|');
 
-      titles.forEach(title => {
+      for (const title of titles) {
         const trimmedTitle = title.trim();
         if (trimmedTitle) {
+
+          if (filter.isProfane(trimmedTitle)) {
+            alert('Não é permitido cadastrar tarefas com palavras obscenas.');
+            continue;
+          }
+
           const newTodo: Todo = {
             id: this.todoService.getTodoNewId(),
             title: trimmedTitle,
@@ -40,7 +53,7 @@ export class NewTaskComponent implements OnInit {
           };
           this.todoService.addTodo(newTodo);
         }
-      });
+      }
     }
     this.newTaskTitle = '';
   }

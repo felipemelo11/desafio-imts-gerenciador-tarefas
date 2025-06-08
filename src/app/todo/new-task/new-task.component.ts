@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Todo } from '../../shared/models/todo.model';
 import { TodoService } from 'src/app/shared/services/todo.service';
 import { Filter } from 'bad-words';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-task',
@@ -24,7 +25,11 @@ export class NewTaskComponent implements OnInit {
 
     if (this.isEditing) {
       if (filter.isProfane(this.newTaskTitle)) {
-        alert('Não é permitido cadastrar tarefas com palavras obscenas.');
+        Swal.fire({
+          icon: 'error',
+          title: 'Ação bloqueada',
+          text: 'Não é permitido cadastrar tarefas com palavras obscenas.',
+        });
         return;
       }
       const updatedTodo: Todo = {
@@ -42,7 +47,11 @@ export class NewTaskComponent implements OnInit {
         if (trimmedTitle) {
 
           if (filter.isProfane(trimmedTitle)) {
-            alert('Não é permitido cadastrar tarefas com palavras obscenas.');
+            Swal.fire({
+              icon: 'error',
+              title: 'Ação bloqueada',
+              text: 'Não é permitido cadastrar tarefas com palavras obscenas.',
+            });
             continue;
           }
 

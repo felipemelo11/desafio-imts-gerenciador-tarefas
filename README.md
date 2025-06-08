@@ -11,7 +11,7 @@ Para executar a aplicação em um ambiente de desenvolvimento local, siga os pas
 1.  **Clonar o Repositório**
     ```bash
     git clone https://github.com/felipemelo11/desafio-imts-gerenciador-tarefas.git
-    cd teste-trainee-dev
+    cd desafio-imts-gerenciador-tarefas
     ```
 
 2.  **Instalar as Dependências**

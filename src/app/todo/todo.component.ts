@@ -42,14 +42,14 @@ export class TodoComponent implements OnInit {
   }
 
   clearAll() {
-    if (this.todos.length > 0 && confirm('Are you sure you want to clear all tasks?')) {
+    if (this.todos.length > 0 && confirm('Tem certeza que deseja limpar todas as tarefas?')) {
       this.todoService.clearAll();
       this.loadTodos();
     }
   }
 
   clearCompletedTasks() {
-    if (confirm('Tem certeza que deseja limpar as tarefas concluídas?')) {
+    if (this.todos.length > 0 && confirm('Tem certeza que deseja limpar as tarefas concluídas?')) {
       this.todoService.clearCompletedTasks();
       this.loadTodos();
     }
@@ -71,5 +71,9 @@ export class TodoComponent implements OnInit {
 
   handleEdit(todo: Todo) {
     this.todoService.setTaskToEdit(todo);
+  }
+
+  sortByName() {
+    this.todos.sort((a, b) => a.title.localeCompare(b.title));
   }
 }
